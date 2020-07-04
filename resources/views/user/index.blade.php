@@ -5,10 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Lista de roles</div>
+                    <div class="card-header">Lista de usuarios</div>
 
                     <div class="card-body">
-                        <a href="{{route('role.create')}}" class="btn btn-primary float-right">Crear</a>
                         <br><br>
                         @include('custom.message')
 
@@ -17,26 +16,28 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Slug</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Full access</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Roles</th>
                                 <th colspan="3"></th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            @foreach($roles as $role)
+                            @foreach($users as $user)
                                 <tr>
-                                    <th scope="row">{{$role->id}}</th>
-                                    <td>{{$role->name}}</td>
-                                    <td>{{$role->slug}}</td>
-                                    <td>{{$role->description}}</td>
-                                    <td>{{$role['full-access']}}</td>
-                                    <td><a class="btn btn-info" href="{{route('role.show',$role->id)}}">Show</a></td>
-                                    <td><a class="btn btn-success" href="{{route('role.edit',$role->id)}}">Edit</a></td>
+                                    <th scope="row">{{$user->id}}</th>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>
+                                        @isset($user->roles[0]->name)
+                                            {{$user->roles[0]->name}}
+                                        @endisset
+                                    </td>
+                                    <td><a class="btn btn-info" href="{{route('user.show',$user->id)}}">Show</a></td>
+                                    <td><a class="btn btn-success" href="{{route('user.edit',$user->id)}}">Edit</a></td>
 
                                     <td>
-                                        <form action="{{route('role.destroy',$role->id)}}" method="POST">
+                                        <form action="{{route('user.destroy',$user->id)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger">Delete</button>
@@ -48,7 +49,7 @@
                             </tbody>
                         </table>
 
-                        {{$roles->links()}}
+                        {{$users->links()}}
                     </div>
                 </div>
             </div>

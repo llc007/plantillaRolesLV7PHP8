@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\User;
 use App\TemplatePermisos\Models\Role;
 use App\TemplatePermisos\Models\Permission;
+use Illuminate\Support\Facades\Gate;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +23,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/test', function () {
+    $user = User::find(2);
+//    $user->roles()->sync([3]);
+    Gate::authorize('haveaccess','role.show');
+    return $user;
+
+//    return $user->havePermission('role.index');
+});
+
 Route::resource('/role', 'RoleController')->names('role');
-
-
+Route::resource('/user', 'UserController',['except'=>[
+    'create','store']])->names('user');
